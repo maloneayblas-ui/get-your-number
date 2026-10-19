@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Get Your Number</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      height: 100dvh;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      touch-action: manipulation;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+
+    #number {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: min(44vw, 42vh);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    button {
+      flex: 1;
+      height: 72px;
+      border-radius: 16px;
+      font-family: inherit;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    #get {
+      background: #fff;
+      color: #000;
+      border: none;
+    }
+
+    #reset {
+      background: transparent;
+      color: #fff;
+      border: 2px solid #fff;
+    }
+
+    button:active {
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <div id="number">?</div>
+
+  <div class="controls">
+    <button id="reset" type="button">RESET</button>
+    <button id="get" type="button">GET NUMBER</button>
+  </div>
+
+  <script>
+    var display = document.getElementById("number");
+
+    function randomNumber() {
+      if (window.crypto && window.crypto.getRandomValues) {
+        var arr = new Uint32Array(1);
+        var limit = 4294967296 - (4294967296 % 100);
+        do {
+          window.crypto.getRandomValues(arr);
+        } while (arr[0] >= limit);
+        return (arr[0] % 100) + 1;
+      }
+      return Math.floor(Math.random() * 100) + 1;
+    }
+
+    document.getElementById("get").addEventListener("click", function () {
+      display.textContent = randomNumber();
+    });
+
+    document.getElementById("reset").addEventListener("click", function () {
+      display.textContent = "?";
+    });
+  </script>
+</body>
+</html>
